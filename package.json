@@ -1,0 +1,41 @@
+{
+  "name": "restaurance",
+  "version": "1.0.0",
+  "description": "A package to send elements to the Heroes of the Storm.",
+  "main": "dist/restaurance.bundle.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "webpack-dev-server",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HelloWorld017/restaurance.git"
+  },
+  "keywords": [
+    "hots",
+    "heroes",
+    "restaurance",
+    "storm",
+    "sigong",
+    "blizzard"
+  ],
+  "author": "Khinenw",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/HelloWorld017/restaurance/issues"
+  },
+  "homepage": "https://github.com/HelloWorld017/restaurance#readme",
+  "devDependencies": {
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.1",
+    "babel-preset-env": "^1.6.0",
+    "webpack": "^3.1.0",
+    "webpack-dev-server": "^2.5.1"
+  },
+  "dependencies": {
+    "babel-polyfill": "^6.23.0"
+  }
+}
