@@ -1,5 +1,8 @@
 import "babel-polyfill";
-import stormImage from "./storm-image";
+import stormImage from "./resources/spin.png";
+import stormBack from "./resources/bg.png";
+import stormIsBest from "./resources/storm-best.mp3";
+import stormLove from "./resources/storm-love.mp3";
 
 const $$ = document.querySelectorAll.bind(document);
 
@@ -7,15 +10,15 @@ const stylesheet = document.createElement('style');
 const animationContent = [
 `@-webkit-keyframes sigong {
 	0% {
-		transform: rotate(10deg);
+		transform: rotate(1deg);
 	}
 
 	50% {
-		transform: rotate(-10deg);
+		transform: rotate(-1deg);
 	}
 
 	100% {
-		transform: rotate(10deg);
+		transform: rotate(1deg);
 	}
 }`,
 
@@ -65,9 +68,15 @@ const sigong = (x, y, elem, duration) => {
 	const xDisp = x - (elemBox.left + elemBox.right) / 2;
 	const yDisp = y - (elemBox.top + elemBox.bottom) / 2;
 
-	elem.style.transition = `transform ${duration - 2}s ease 2s`;
+	elem.style.transition = `transform ${Math.random() * duration / 3 + duration * 2 / 3 - 2}s ease 2s`;
+	elem.style.position = 'relative';
+	elem.style.zIndex = 2;
 	elem.style.transform =
-		`translate(${xDisp}px, ${yDisp}px) rotate(${duration * 180}deg) scale(0)`;
+		`translate(${xDisp}px, ${yDisp}px)` +
+		`rotateX(${duration * (Math.random() * 180 + 20)}deg)` +
+		`rotateY(${duration * (Math.random() * 180 + 20)}deg)` +
+		`rotateZ(${duration * (Math.random() * 180 + 20)}deg)` +
+		`scale(0)`;
 };
 
 const restaurance = async ({x, y, width, height} = {}, elems, duration) => {
@@ -81,14 +90,22 @@ const restaurance = async ({x, y, width, height} = {}, elems, duration) => {
 	);
 
 	const storm = document.createElement('img');
-	storm.style.position = 'fixed';
-	storm.style.left = `${x}px`;
-	storm.style.top = `${y}px`;
-	storm.style.width = `${width}px`;
-	storm.style.height = `${height}px`;
-	storm.style.transition = `transform ${duration - 2}s ease 2s`;
+	const storm2 = document.createElement('img');
+	const setStorm = (storm) => {
+		storm.style.position = 'fixed';
+		storm.style.left = `${x}px`;
+		storm.style.top = `${y}px`;
+		storm.style.width = `${width}px`;
+		storm.style.height = `${height}px`;
+		storm.style.transition = `transform ${duration - 2}s ease 2s`;
+	};
+
+	setStorm(storm);
+	setStorm(storm2);
+
 	setTimeout(() => {
-		storm.style.transform = `rotate(${duration * 360}deg)`;
+		storm.style.transform = `rotate(${duration * 360}deg) scale(5)`;
+		storm2.style.transform = `scale(5)`;
 	}, 500);
 
 	const body = document.body;
@@ -96,18 +113,14 @@ const restaurance = async ({x, y, width, height} = {}, elems, duration) => {
 	body.style.animationDuration = '.2s';
 	body.style.animationIterationCount = `${duration / 0.2}`;
 
+	body.appendChild(storm2);
 	body.appendChild(storm);
 
 	const centerX = x + width / 2;
 	const centerY = y + height / 2;
 
-	await (() => new Promise((resolve) => {
-		storm.onload = () => {
-			resolve();
-		};
-
-		storm.src = stormImage;
-	}))();
+	storm.src = stormImage;
+	storm2.src = stormBack;
 
 	const extraElems = [];
 
@@ -143,7 +156,16 @@ const restaurance = async ({x, y, width, height} = {}, elems, duration) => {
 
 	textView.appendChild(kidnap);
 
-	body.appendChild(textView);
+	const sib = document.createElement('audio');
+	sib.autoplay = true;
+	sib.src = stormIsBest;
+
+	const sil = document.createElement('audio');
+	sil.autoplay = true;
+	sil.src = stormLove;
+
+	[textView, sib, sil].forEach((v) => document.body.appendChild(v));
+
 	console.log(`${stormText}${stormLink}`);
 };
 

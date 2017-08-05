@@ -21,6 +21,15 @@ module.exports = {
 					presets: ['env']
 				},
 				exclude: /node_modules/
+			},
+
+			{
+				test: /\.(png|mp3)$/,
+				loader: 'url-loader',
+				options: {
+					name: '[name].[ext]?[hash]',
+					limit: 10000
+				}
 			}
 		]
 	},
