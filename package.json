@@ -1,8 +1,8 @@
 {
   "name": "restaurance",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A package to send elements to the Heroes of the Storm.",
-  "main": "dist/restaurance.bundle.js",
+  "main": "index.js",
   "directories": {
     "test": "test"
   },
