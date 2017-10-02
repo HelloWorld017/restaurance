@@ -1,4 +1,3 @@
-import "babel-polyfill";
 const stormCDN = 'https://raw.githubusercontent.com/HelloWorld017/restaurance/master/resources/'
 const stormImage = stormCDN + 'spin.png';
 const stormBack = stormCDN + 'bg.png';
@@ -91,7 +90,7 @@ const sigong = (x, y, elem, duration) => {
 
 	elem.style.transitionProperty = `transform`;
 	elem.style.position = 'relative';
-	elem.style.zIndex = 2;
+	elem.style.zIndex = 10000000;
 	elem.style.transform =
 		`translate(${xDisp}px, ${yDisp}px)` +
 		`rotateX(${duration * (Math.random() * 30 + 20)}deg)` +
@@ -126,6 +125,7 @@ const restaurance = async ({x, y, width, height}, elems, duration) => {
 		storm.style.width = `${width}px`;
 		storm.style.height = `${height}px`;
 		storm.style.transition = `transform ${duration - 2}s ease 2s`;
+		storm.style.zIndex = 9999999;
 	};
 
 	setStorm(storm);
@@ -186,6 +186,7 @@ const restaurance = async ({x, y, width, height}, elems, duration) => {
 		textView.style.animationDuration = '.4s';
 		textView.style.animationDelay = `${duration - 0.4}s`;
 		textView.style.animationFillMode = 'forwards';
+		textView.style.zIndex = 9999999;
 	};
 	setSigongText(textView);
 	setSigongText(bigPicture);
