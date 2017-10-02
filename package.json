@@ -1,14 +1,15 @@
 {
   "name": "restaurance",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A package to send elements to the Heroes of the Storm.",
   "main": "index.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "test": "webpack-dev-server",
-    "build": "webpack"
+    "dev": "webpack-dev-server",
+    "build": "webpack",
+    "watch": "webpack --watch"
   },
   "repository": {
     "type": "git",

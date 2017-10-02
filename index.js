@@ -85,8 +85,8 @@ const stormLink = 'https://battle.net/heroes';
 const sigong = (x, y, elem, duration) => {
 	const elemBox = elem.getBoundingClientRect();
 
-	const xDisp = x - (elemBox.left + elemBox.right) / 2;
-	const yDisp = y - (elemBox.top + elemBox.bottom) / 2;
+	const xDisp = x - (elemBox.left + elemBox.right) / 2 - window.pageXOffset;
+	const yDisp = y - (elemBox.top + elemBox.bottom) / 2 - window.pageYOffset;
 
 	elem.style.transitionProperty = `transform`;
 	elem.style.position = 'relative';
@@ -104,28 +104,40 @@ const sigong = (x, y, elem, duration) => {
 	elem.style.transitionDelay = (Math.random() * (duration - length - 2) + 2) + 's';
 };
 
-const restaurance = async ({x, y, width, height}, elems, duration) => {
+const restaurance = async ({x, y, z, width, height, target}, elems, duration) => {
 	if(width === undefined) width = 150;
 	if(height === undefined) height = 150;
 	if(x === undefined) x = (window.innerWidth - width) / 2;
-	if(y === undefined) y = (window.innerHeight - height) / 2;
+	if(y === undefined) y = (() => {
+			const supportPageOffset = window.pageXOffset !== undefined;
+			const isCSS1Compat = ((document.compatMode || "") === "CSS1Compat");
+			return supportPageOffset ?
+				window.pageYOffset :
+				isCSS1Compat ?
+					document.documentElement.scrollTop :
+					document.body.scrollTop;
+		})() + (window.innerHeight - height) / 2;
+
 	if(duration === undefined) duration = 30;
 	if(elems === undefined) elems = Array.prototype.filter.call(
 		$$('*'), (v) => v.children.length <= 0
 	);
 
+	if(target === undefined) target = document.body;
+
+	if(z === undefined) z = 9999999;
 	const storm = document.createElement('img');
 	const storm2 = document.createElement('img');
 	const bigPicture = document.createElement('img');
 
 	const setStorm = (storm) => {
-		storm.style.position = 'fixed';
+		storm.style.position = 'absolute';
 		storm.style.left = `${x}px`;
 		storm.style.top = `${y}px`;
 		storm.style.width = `${width}px`;
 		storm.style.height = `${height}px`;
 		storm.style.transition = `transform ${duration - 2}s ease 2s`;
-		storm.style.zIndex = 9999999;
+		storm.style.zIndex = z;
 	};
 
 	setStorm(storm);
@@ -141,15 +153,16 @@ const restaurance = async ({x, y, width, height}, elems, duration) => {
 	body.style.animationDuration = '.2s';
 	body.style.animationIterationCount = `${duration / 0.2}`;
 
-	body.appendChild(bigPicture);
-	body.appendChild(storm2);
-	body.appendChild(storm);
+	target.appendChild(bigPicture);
+	target.appendChild(storm2);
+	target.appendChild(storm);
 
-	bigPicture.style.position = 'fixed';
-	bigPicture.style.left = '50vw';
-	bigPicture.style.top = '50vh';
+	bigPicture.style.position = 'absolute';
+	bigPicture.style.left = `${x + width / 2}px`;
+	bigPicture.style.top = `${y + height / 2}px`;
 	bigPicture.style.transform = 'translate(-50%, -50%)';
 	bigPicture.style.opacity = 0;
+	bigPicture.style.zIndex = z - 1;
 
 	const centerX = x + width / 2;
 	const centerY = y + height / 2;
@@ -173,9 +186,9 @@ const restaurance = async ({x, y, width, height}, elems, duration) => {
 	const textView = document.createElement('div');
 	textView.innerText = stormText;
 	textView.style.opacity = '0';
-	textView.style.position = 'fixed';
-	textView.style.top = 'calc(50vh + 100px)';
-	textView.style.left = '50vw';
+	textView.style.position = 'absolute';
+	textView.style.top = `${y + height / 2 + 100}px`;
+	textView.style.left = `${x + width / 2}px`;
 	//Kong-Kong Color
 	textView.style.background = '#222222';
 	textView.style.color = '#f0f1f2';
@@ -195,6 +208,7 @@ const restaurance = async ({x, y, width, height}, elems, duration) => {
 	const kidnap = document.createElement('a');
 	kidnap.href = stormLink;
 	kidnap.innerText = stormLink;
+	kidnap.style.color = '#0080ff';
 
 	textView.appendChild(kidnap);
 
@@ -206,7 +220,7 @@ const restaurance = async ({x, y, width, height}, elems, duration) => {
 	sil.autoplay = true;
 	sil.src = stormLove;
 
-	[textView, sib, sil].forEach((v) => document.body.appendChild(v));
+	[textView, sib, sil].forEach((v) => target.appendChild(v));
 
 	console.log(`${stormText}${stormLink}`);
 
