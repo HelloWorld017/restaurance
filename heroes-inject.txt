@@ -1,1 +1,1 @@
-javascript:document.body.innerHTML += '<script src="https://cdn.rawgit.com/HelloWorld017/restaurance/gh-pages/dist/restaurance.bundle.js"></script>';
+javascript:document.body.innerHTML += '<script src="https://cdn.jsdelivr.net/gh/HelloWorld017/restaurance@gh-pages/dist/restaurance.bundle.js"></script>';
